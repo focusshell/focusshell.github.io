@@ -1,0 +1,192 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-1-初识代码 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-1-初识代码</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/07/13</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Python"> Python</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="Python介绍"><a href="#Python介绍" class="headerlink" title="Python介绍"></a>Python介绍</h1><hr>
+<p>&emsp;Python的创始人为<a href="https://baike.baidu.com/item/%E5%90%89%E5%A4%9A%C2%B7%E8%8C%83%E7%BD%97%E8%8B%8F%E5%A7%86/328361?fr=aladdin" target="_blank" rel="noopener">吉多·范罗苏姆（龟叔）</a>在1989年的圣诞节期间吉多·范罗苏姆为了在阿姆斯丹特打发时间（O__O “…），决心开发一个新的脚本解释程序，作为ABC语言的一种继承，在今年最新的TIOBE排行榜，Python赶超C#占据第五，Python崇尚优美、清晰、简单，是一个优秀并广泛使用的语言;<br><img src="/img/python/tiobe.jpg" alt="tiobe"><br>&emsp;上图可以看出，Python整体呈现上升的趋势，也可以看出Python得到了整个业界的一致认可；<br>&emsp;Python可以应用于众多领域，如：数据分析、组件集成、网络服务、图像处理、数值计算和科学计算等众多领域，目前业内几乎所有的中大型互联网企业都在用Python；</p>
+<hr>
+<h2 id="目前Python主要应用的领域："><a href="#目前Python主要应用的领域：" class="headerlink" title="目前Python主要应用的领域："></a>目前Python主要应用的领域：</h2><blockquote>
+<ol>
+<li>云计算：云计算最火的语言，典型应用Openstack；</li>
+<li>WEB开发：众多优秀的WEB框架，众多大型网站均为Python开发；</li>
+<li>科学运算、人工智能；</li>
+<li>金融：量化交易，金融分析，在金融工程领域，Python不但在用，而且用的最多，而且重要性逐年提高。</li>
+<li>图形GUI；</li>
+</ol>
+</blockquote>
+<p><strong><font color="#FF0000">原因：作为动态语言，语言结构清晰、简单、库丰富、成熟稳定，可选计算和统计分析都很优秀。</font></strong></p>
+<hr>
+<h1 id="Python是一门什么样的语言"><a href="#Python是一门什么样的语言" class="headerlink" title="Python是一门什么样的语言"></a>Python是一门什么样的语言</h1><p>&emsp;编程语言主要从以下几个角度进行分类，编译型和解释型、静态和动态、强类定义型和弱类定义型语言。每个分类代表什么意思呢？</p>
+<hr>
+<h2 id="编译型语言和解释型语言的区别"><a href="#编译型语言和解释型语言的区别" class="headerlink" title="编译型语言和解释型语言的区别"></a>编译型语言和解释型语言的区别</h2><p><strong>编译型语言</strong></p>
+<blockquote>
+<p>编译性的语言指使用专门的编译器、针对特定平台（操作系统）将某种高级语言源代码一次性“翻译”成该平台硬件执行的机器码（包括机器指令和操作数），并包装成该平台所能识别的可执行性程序的格式，这个转换过程称为编译（Compile）。编译生成的可执行程序可以脱离开发环境，在特定的平台上独立运行。</p>
+</blockquote>
+<blockquote>
+<p>有些程序在编译结束之后，还可能需要对其他编译好的目标代码进行链接，即组装两个以上的目标代码模块生成最终的可执行程序，通过这种方式实现低层次的代码复用。</p>
+</blockquote>
+<blockquote>
+<p>因为编译型语言是一次性的编译成机器码，所以可以脱离开发环境独立运行，而且通常运行效率较高；但因为编译性语言的程序被编译成特定平台上的机器码，因此编译生成的可执行程序通常无法移植到其他平台上运行；如果需要移植，则必须将源代码复制到特定的平台上，针对特定的平台进行修改，至少也需要采用特定平台上的编译器重新编译。</p>
+</blockquote>
+<p><strong><font color="#40E0D0">比如我们现在的C、C++、Objective-C、Pasca等高级语言都属于编译型语言。</font></strong></p>
+<p><strong>解释型语言</strong></p>
+<blockquote>
+<p>解释型语言是指使用专门的解释器对源程序进行逐行解释成特定平台的机器码并立即执行的语言。解释型语言通常不会进行整体的编译和链接处理，解释型语言相当于把编译型语言中的编译和解释过程混合在一起同时完成。</p>
+</blockquote>
+<blockquote>
+<p>可以这样认为：每次执行解释型语言的程序都需要进行一次编译，因此解释型语言的程序运行效率通常较低，而且它不能脱离解释器独立运行。</p>
+</blockquote>
+<blockquote>
+<p>但解释性语言有一个优势：跨平台比较容易，只需提供特定平台的解释器即可，每个特定平台上的解释器负责将源程序解释成特定平台的机器指令即可。解释性语言可以方便的实现源程序的移植，但这是以牺牲程序执行效率为代价的。</p>
+</blockquote>
+<p><strong><font color="#87CEEB">比如我们现在的Java、Ruby、Python等高级语言都属于解释型语言。</font></strong></p>
+<p><img src="/img/python/yvyan.jpg" alt="Python是怎样的语言"></p>
+<hr>
+<h3 id="编译型和解释型语言的优缺点"><a href="#编译型和解释型语言的优缺点" class="headerlink" title="编译型和解释型语言的优缺点"></a>编译型和解释型语言的优缺点</h3><p><strong>编译型语言</strong></p>
+<blockquote>
+<ol>
+<li>编译型语言最大的优势之一就是其执行速度。用C/C++编写的程序运行速度要比用Java编写的相同程序快30%-70%。</li>
+<li>编译型程序比解释型程序消耗的内存更少。</li>
+<li>不利的一面——编译器比解释器要难写得多。</li>
+<li>编译器在调试程序时提供不了多少帮助——有多少次在你的C语言代码中遇到一个“空指针异常”时，需要花费好几个小时来明确错误到底在代码中的什么位置。</li>
+<li>可执行的编译型代码要比相同的解释型代码大许多。例如，C/C++的.exe文件要比同样功能的Java的.class文件大很多。</li>
+<li>编译型程序是面向特定平台的因而是平台依赖的。</li>
+<li>编译型程序不支持代码中实现安全性——例如，一个编译型的程序可以访问内存的任何区域，并且可以对你的PC做它想做的任何事情（大部分病毒是使用编译型语言编写的）</li>
+<li>由于松散的安全性和平台依赖性，编译型语言不太适合开发因特网或者基于Web的应用</li>
+</ol>
+</blockquote>
+<p><strong>解释型语言</strong></p>
+<blockquote>
+<ol>
+<li>解释型语言提供了极佳的调试支持。一名Java程序员只需要几分钟就可以定位并修复一个“空指针异常”，因为Java运行环境不仅指明了异常的性质，而且给出了异常发生位置具体的行号和函数调用顺序（著名的堆栈跟踪信息）。这样的便利是编译型语言所无法提供的。</li>
+<li>另一个优势是解释器比编译器容易实现</li>
+<li>解释型语言最大的优势之一是其平台独立性</li>
+<li>解释型语言也可以保证高度的安全性——这是互联网应用迫切需要的</li>
+<li>中间语言代码的大小比编译型可执行代码小很多</li>
+<li>平台独立性，以及严密的安全性是使解释型语言成为适合互联网和Web应用的理想语言的2个最重要的因素。</li>
+<li>解释型语言存在一些严重的缺点。解释型应用占用更多的内存和CPU资源。这是由于，为了运行解释型语言编写的程序，相关的解释器必须首先运行。解释器是复杂的，智能的，大量消耗资源的程序并且它们会占用很多CPU周期和内存。</li>
+<li>由于解释型应用的decode-fetch-execute（解码-抓取-执行）的周期，它们比编译型程序慢很多。</li>
+<li>解释器也会做很多代码优化，运行时安全性检查；这些额外的步骤占用了更多的资源并进一步降低了应用的运行速度。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="动态语言和静态语言"><a href="#动态语言和静态语言" class="headerlink" title="动态语言和静态语言"></a>动态语言和静态语言</h2><p><strong>动态语言</strong></p>
+<blockquote>
+<p>动态语言是一类运行时可以改变其结构的语言，例如：新的函数、对象、甚至代码可以被引进，已有的函数可以被删除或是其它结构上的变化。通俗点说就是在运行时代码可以根据某些条件改变自身结构;</p>
+</blockquote>
+<p><strong><font color="#00FF7F">主要的动态语言：Object-C、C#、JavaScript、PHP、Python、Erlang</font></strong></p>
+<p><strong>静态语言</strong></p>
+<blockquote>
+<p>与动态语言相对应的，运行时不可变的语言就是静态语言。</p>
+</blockquote>
+<p><strong><font color="#FF6347">主要语言：Java、C、C++；</font></strong></p>
+<hr>
+<h2 id="强类型语言和弱类型语言"><a href="#强类型语言和弱类型语言" class="headerlink" title="强类型语言和弱类型语言"></a>强类型语言和弱类型语言</h2><p><strong>强类型语言</strong></p>
+<blockquote>
+<p>强类型语言，一旦一个变量被置顶了某个数据类型，如果不经过强制类型转换，那么它就永远是这个数据类型。你不能把一个整形变量当成一个字符串来处理。</p>
+</blockquote>
+<p><strong><font color="#9ACD32">主要语言：Java、C#、Python、Object-C、Ruby</font></strong></p>
+<p><strong>弱类型语言</strong></p>
+<blockquote>
+<p>数据类型可以被忽略，一个变量可以赋不同的数据类型的值。一旦给一个整型变量a赋一个字符串值。那么a就成了字符类型；</p>
+</blockquote>
+<p><strong><font color="#2E8B57">主要语言：JavaScript、PHP、C、C++（C和C++有争议，但是确实可以给一个字符变量赋整型值，可能初衷是强类型，形态上接近弱类型）</font></strong></p>
+<h2 id="混合型语言"><a href="#混合型语言" class="headerlink" title="混合型语言"></a>混合型语言</h2><p>&emsp;既然编译型和解释型各有全店就会有人想到吧两种类型整合起来，取其精华去其糟粕；就出现了半编译型语言。比如C#、C#在编译的时候不是直接编译成机器码而是中间码，.NET平台提供了中间语言运行库运行中间码，中间语言运行库类似Java虚拟机。.NET在编译成IL代码后，板寸在dll中，首次运行时由JIT在编译成机器码缓存到内存中，下次直接执行。<br>&emsp;Java先生成字节码，再到Java虚拟机中解释执行，严格来说混合型语言属于解释语言。C#更接近编译型语言；<br><img src="/img/python/fenpei.jpg" alt="语言分类"></p>
+<hr>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><strong><font color="#FF0000" size="5">综上所述：Python是一门动态、解释型、强类型语言</font></strong></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/07/13/Day-1-初识代码/">http://focusshell.github.io/2018/07/13/Day-1-初识代码/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2018/07/14/Day-2-Python解释器/" title="Day-2-Python解释器"><span>< PreviousPost</span><br><span class="prevTitle">Day-2-Python解释器</span></a><a class="nextSlogan" href="/2018/07/10/记AWS峰会-北京站/" title="记AWS峰会-北京站"><span>NextPost ></span><br><span class="nextTitle">记AWS峰会-北京站</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python介绍"><span class="toc-number">1.</span> <span class="toc-text">Python介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目前Python主要应用的领域："><span class="toc-number">1.1.</span> <span class="toc-text">目前Python主要应用的领域：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python是一门什么样的语言"><span class="toc-number">2.</span> <span class="toc-text">Python是一门什么样的语言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#编译型语言和解释型语言的区别"><span class="toc-number">2.1.</span> <span class="toc-text">编译型语言和解释型语言的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译型和解释型语言的优缺点"><span class="toc-number">2.1.1.</span> <span class="toc-text">编译型和解释型语言的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态语言和静态语言"><span class="toc-number">2.2.</span> <span class="toc-text">动态语言和静态语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#强类型语言和弱类型语言"><span class="toc-number">2.3.</span> <span class="toc-text">强类型语言和弱类型语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#混合型语言"><span class="toc-number">2.4.</span> <span class="toc-text">混合型语言</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

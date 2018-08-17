@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-2-Python解释器 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-2-Python解释器</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/07/14</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Python"> Python</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="Python3"><a href="#Python3" class="headerlink" title="Python3"></a>Python3</h1><p>&emsp;Python3.0版本，常被称为Python 3000，或简称Python的早期版本，这是一个较大的升级。为了不带入过多的累赘，Python3.0在设计的时候没有考虑乡下兼容。<br><img src="/img/python/life.jpg" alt="人生苦短，快用Python"></p>
+<hr>
+<h2 id="查看Python版本"><a href="#查看Python版本" class="headerlink" title="查看Python版本"></a>查看Python版本</h2><p>&emsp;我们可以在命令行窗口（Windows使用win+r调出cmd运行框架）使用以下命令查看我们使用的Python版本；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -v</span><br></pre></td></tr></table></figure>
+<p>&emsp;以上命令执行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python <span class="number">3.5</span>.</span><br></pre></td></tr></table></figure>
+<p>&emsp;你也可以进入Python的交互式编程模式，查看版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Python <span class="number">3.5</span><span class="number">.2</span> |Anaconda <span class="number">4.2</span><span class="number">.0</span> (<span class="number">64</span>-bit)| (default, Jul  <span class="number">5</span> <span class="number">2016</span>, <span class="number">11</span>:<span class="number">41</span>:<span class="number">13</span>) [MSC v<span class="number">.1900</span> <span class="number">64</span> bit (AMD64)] on win32</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> <span class="keyword">or</span> <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Python-解释器"><a href="#Python-解释器" class="headerlink" title="Python 解释器"></a>Python 解释器</h1><p>&emsp;Python是一门解释型语言，代码想运行，必须通过解释器执行，PythonI多种解释器，分别基于不同语言开发，每个解释器有不同的特点，但都能正常运行Python代码，以下是常用的五种常用的Python解释器：</p>
+<hr>
+<h2 id="CPython"><a href="#CPython" class="headerlink" title="CPython"></a>CPython</h2><p>&emsp;但从Python官方网站下载并安装好Python2.7后，就直接获得了一个官方版本的解释器：CPython，这个解释器是用C语言开发的，所以叫CPython，在命令行下运行Python，就是启动CPython解释器，CPython是使用最广的Python解释器。</p>
+<hr>
+<h2 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h2><p>&emsp;IPython是基于CPython之上的一个交互式解释器，也就是说，IPython只是在交互方式上有所增强，但是执行Python代码的功能和CPython是完全一样的，好比很多国家浏览器外国虽然不同，但是内核其实还是使用的IE；</p>
+<hr>
+<h2 id="PyPy"><a href="#PyPy" class="headerlink" title="PyPy"></a>PyPy</h2><p>&emsp;PyPy是一个Python解释器，他的死目标是执行速度，PyPy采用JIT技术，对Python代码进行动态编译，所以可以显著提高Python代码执行速度。</p>
+<hr>
+<h2 id="Jython"><a href="#Jython" class="headerlink" title="Jython"></a>Jython</h2><hr>
+<p>&emsp;Jython是运行在java平台上的Python解释器，可以直接吧Python代码编译成java直接码执行。</p>
+<hr>
+<h2 id="lronPython"><a href="#lronPython" class="headerlink" title="lronPython"></a>lronPython</h2><p>&emsp;lronPython和Jython类似，只不过lronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的直接码；</p>
+<hr>
+<p><strong><font color="#D2691E">在Python的解释器中，使用广泛的是CPython，对于Python的编译，除了可以采用以上解释器进行编译外，技术高超的开发者还可以按照自己的需求进行编写Python解释器来执行Python代码，十分的方便、快捷、高效</font></strong></p>
+<p><img src="/img/python/dd.jpg" alt="Bye"></p>
+<hr>
+<font size="4.5" color="#1E90FF">People can’t do something by themselves,they wanna tell you you can not do it.</font></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/07/14/Day-2-Python解释器/">http://focusshell.github.io/2018/07/14/Day-2-Python解释器/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2018/07/16/Day-4-Python基础数据类型/" title="Day-4-Python基础数据类型"><span>< PreviousPost</span><br><span class="prevTitle">Day-4-Python基础数据类型</span></a><a class="nextSlogan" href="/2018/07/13/Day-1-初识代码/" title="Day-1-初识代码"><span>NextPost ></span><br><span class="nextTitle">Day-1-初识代码</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python3"><span class="toc-number">1.</span> <span class="toc-text">Python3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看Python版本"><span class="toc-number">1.1.</span> <span class="toc-text">查看Python版本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python-解释器"><span class="toc-number">2.</span> <span class="toc-text">Python 解释器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPython"><span class="toc-number">2.1.</span> <span class="toc-text">CPython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IPython"><span class="toc-number">2.2.</span> <span class="toc-text">IPython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PyPy"><span class="toc-number">2.3.</span> <span class="toc-text">PyPy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jython"><span class="toc-number">2.4.</span> <span class="toc-text">Jython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lronPython"><span class="toc-number">2.5.</span> <span class="toc-text">lronPython</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

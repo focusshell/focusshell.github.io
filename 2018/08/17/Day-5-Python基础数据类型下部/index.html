@@ -1,0 +1,212 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-5-Python基础数据类型下部 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-5-Python基础数据类型下部</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/08/17</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Python"> Python</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="Python基础数据类型下部"><a href="#Python基础数据类型下部" class="headerlink" title="Python基础数据类型下部"></a>Python基础数据类型下部</h1><p>&emsp;前面我们主要了解了，Python六个标准数据类型中的 <strong>不可变数据</strong> Number、String、Tuple;接下来我们学习后面三个标准数据类型，<strong>可变数据</strong> List、Dictionary、Set;</p>
+<h2 id="List-列表"><a href="#List-列表" class="headerlink" title="List (列表)"></a>List (列表)</h2><p>&emsp;List（列表）是Python中使用最频繁的数据类型。<br>&emsp;列表可以完成大多数集合类的数据结构实现，列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）。<br>&emsp;列表是写在方括号[]之间、用逗号分隔开的元素列表；<br>&emsp;和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的心列表。<br>&emsp;列表截取的语法格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">变量[头下标:尾下标]</span><br></pre></td></tr></table></figure>
+<p>&emsp;索引值以0为开始值，-1位从末尾的开始位置<br><img src="/img/python/liebiao.jpg" alt="列表截取"><br>&emsp;加号+是列表连接运算符，星号*是重复操作。如下实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash/python3</span></span><br><span class="line"></span><br><span class="line">list = [ <span class="string">'abcd'</span>, <span class="number">786</span> , <span class="number">2.23</span> , <span class="string">'runoob'</span> , <span class="number">70.2</span> ]</span><br><span class="line">tinylist = [<span class="number">123</span>, <span class="string">'runoob'</span>]</span><br><span class="line"></span><br><span class="line">print(list)                <span class="comment"># 输出完整列表</span></span><br><span class="line">print(list[<span class="number">0</span>])             <span class="comment"># 输出完整列表第一个元素</span></span><br><span class="line">print(list[<span class="number">1</span>:<span class="number">3</span>])           <span class="comment"># 从第二个开始输出到第三个元素</span></span><br><span class="line">print(list[<span class="number">2</span>:])            <span class="comment"># 输出从第三个元素开始的所有元素</span></span><br><span class="line">print(tinylist * <span class="number">2</span>)        <span class="comment"># 输出两次列表</span></span><br><span class="line">print(list + tinylist)     <span class="comment"># 连接列表</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;以上代码输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User\Anaconda3\python.exe <span class="string">"D:/Pycharm job/列表截取.py"</span></span><br><span class="line">[<span class="string">'abcd'</span>, <span class="number">786</span>, <span class="number">2.23</span>, <span class="string">'runoob'</span>, <span class="number">70.2</span>]</span><br><span class="line">abcd</span><br><span class="line">[<span class="number">786</span>, <span class="number">2.23</span>]</span><br><span class="line">[<span class="number">2.23</span>, <span class="string">'runoob'</span>, <span class="number">70.2</span>]</span><br><span class="line">[<span class="number">123</span>, <span class="string">'runoob'</span>, <span class="number">123</span>, <span class="string">'runoob'</span>]</span><br><span class="line">[<span class="string">'abcd'</span>, <span class="number">786</span>, <span class="number">2.23</span>, <span class="string">'runoob'</span>, <span class="number">70.2</span>, <span class="number">123</span>, <span class="string">'runoob'</span>]</span><br></pre></td></tr></table></figure>
+<p>&emsp;与Python字符串不一样的是，列表中的元素是可以改变的：<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">0</span>] = <span class="number">9</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>:<span class="number">5</span>] = [<span class="number">13</span>,<span class="number">14</span>,<span class="number">15</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">9</span>, <span class="number">2</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>:<span class="number">5</span>] = []   <span class="comment"># 将对应的元素值设置为[]</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>]</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;List内置有很多方法，例如append()、pop()等等，这在后面会有讲述。<br>&emsp;<strong>注意：</strong></p>
+<blockquote>
+<ol>
+<li>List卸载方括号之间，元素用逗号隔开；</li>
+<li>和字符串一样，list可以被索引和切片。</li>
+<li>List可以使用+操作符进行拼接。</li>
+<li>List中的元素是可以改变的。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="Set（集合）"><a href="#Set（集合）" class="headerlink" title="Set（集合）"></a>Set（集合）</h2><p>&emsp;集合（set）是一个无序不重复的元素的序列。<br>&emsp;基本功能是进行成员关系测试和删除重复元素。<br>&emsp;可以使用大括号｛｝或者set（）函数创建集合，注意：创建一个空集合必须用set（）而不是｛｝，因为｛｝是用来创建一个空字典的。<br>&emsp;<strong>创建格式：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash/python3</span></span><br><span class="line"></span><br><span class="line">parname = &#123;value01,value02,....&#125;</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">set(value)</span><br></pre></td></tr></table></figure>
+<p>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash/ppython3</span></span><br><span class="line"></span><br><span class="line">student = &#123;<span class="string">'Tom'</span>, <span class="string">'Jim'</span>, <span class="string">'Mary'</span>, <span class="string">'Tom'</span>, <span class="string">'Jack'</span>, <span class="string">'Rose'</span>&#125;</span><br><span class="line">print(student)  <span class="comment"># 输出集合，重复的元素被自动去掉</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 成员测试</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="string">'Rose'</span> <span class="keyword">in</span> student :</span><br><span class="line">    print(<span class="string">'Rose在集合中'</span>)</span><br><span class="line"><span class="keyword">else</span> :</span><br><span class="line">    print(<span class="string">'Rose 不在集合中'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># set 可以进行集合运算</span></span><br><span class="line"></span><br><span class="line">a = set(<span class="string">'abracadabra'</span>)</span><br><span class="line">b = set(<span class="string">'alacazam'</span>)</span><br><span class="line"></span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">print(a - b)    <span class="comment"># a和b的差集</span></span><br><span class="line"></span><br><span class="line">print(a | b)    <span class="comment"># a和b的并集</span></span><br><span class="line"></span><br><span class="line">print(a &amp; b)    <span class="comment"># a和b的交集</span></span><br><span class="line"></span><br><span class="line">print(a ^ b)    <span class="comment"># a和b中不同的时序存在的元素</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;上述代码输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User\Anaconda3\python.exe <span class="string">"D:/Pycharm job/set集合.py"</span></span><br><span class="line">&#123;<span class="string">'Tom'</span>, <span class="string">'Jim'</span>, <span class="string">'Mary'</span>, <span class="string">'Jack'</span>, <span class="string">'Rose'</span>&#125;</span><br><span class="line">Rose在集合中</span><br><span class="line">&#123;<span class="string">'d'</span>, <span class="string">'b'</span>, <span class="string">'a'</span>, <span class="string">'c'</span>, <span class="string">'r'</span>&#125;</span><br><span class="line">&#123;<span class="string">'d'</span>, <span class="string">'b'</span>, <span class="string">'r'</span>&#125;</span><br><span class="line">&#123;<span class="string">'d'</span>, <span class="string">'c'</span>, <span class="string">'z'</span>, <span class="string">'l'</span>, <span class="string">'b'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>, <span class="string">'r'</span>&#125;</span><br><span class="line">&#123;<span class="string">'c'</span>, <span class="string">'a'</span>&#125;</span><br><span class="line">&#123;<span class="string">'d'</span>, <span class="string">'z'</span>, <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'b'</span>, <span class="string">'r'</span>&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Dictionary-字典"><a href="#Dictionary-字典" class="headerlink" title="Dictionary (字典)"></a>Dictionary (字典)</h2><p>&emsp;字典（Dictionary）是Python中另一个非常有用的内置数据类型。<br>&emsp;列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：<strong>字典当中的元素是通过键来存取的，而不是通过偏移存取。<br>&emsp;字典是一种映射类型，字典”{}”标识，他是一个无序的键(key)：值(value)对组合。<br>&emsp;键（Key）必须使用不可变类型，<br>&emsp;在同一字典中，键（key）必须是唯一的。<br>&emsp;</strong>实例：__</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash/python3</span></span><br><span class="line"></span><br><span class="line">dict = &#123; &#125;</span><br><span class="line">dict[<span class="string">'one'</span>] = <span class="string">"1 - 菜鸟教程"</span></span><br><span class="line">dict[<span class="number">2</span>]     = <span class="string">"2 - 菜鸟工具"</span></span><br><span class="line"></span><br><span class="line">tinydict = &#123; <span class="string">'name'</span>: <span class="string">'runoob'</span>,<span class="string">'code'</span>:<span class="number">1</span>, <span class="string">'site'</span>: <span class="string">'www.focusshell.com'</span> &#125;</span><br><span class="line"></span><br><span class="line">print(dict[ <span class="string">'one'</span> ])       <span class="comment"># 输出键为‘one’的值</span></span><br><span class="line">print(dict[<span class="number">2</span>])             <span class="comment"># 输出键为2的值</span></span><br><span class="line">print(tinydict)            <span class="comment"># 输出完整的字典</span></span><br><span class="line">print(tinydict.keys())     <span class="comment"># 输出所有键</span></span><br><span class="line">print(tinydict.values())   <span class="comment"># 输出所有值</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;以上代码输出结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User\Anaconda3\python.exe <span class="string">"D:/Pycharm job/字典.py"</span></span><br><span class="line"><span class="number">1</span> - 菜鸟教程</span><br><span class="line"><span class="number">2</span> - 菜鸟工具</span><br><span class="line">&#123;<span class="string">'site'</span>: <span class="string">'www.focusshell.com'</span>, <span class="string">'code'</span>: <span class="number">1</span>, <span class="string">'name'</span>: <span class="string">'runoob'</span>&#125;</span><br><span class="line">dict_keys([<span class="string">'site'</span>, <span class="string">'code'</span>, <span class="string">'name'</span>])</span><br><span class="line">dict_values([<span class="string">'www.focusshell.com'</span>, <span class="number">1</span>, <span class="string">'runoob'</span>])</span><br></pre></td></tr></table></figure>
+<p>&emsp;构造函数dict()可以直接键值对序列中构建字典如下：<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;dict([(<span class="string">'Runoob'</span>, <span class="number">1</span>), (<span class="string">'Google'</span>, <span class="number">2</span>), (<span class="string">'Taobao'</span>, <span class="number">3</span>)])</span><br><span class="line">&#123;<span class="string">'Taobao'</span>: <span class="number">3</span>, <span class="string">'Runoob'</span>: <span class="number">1</span>, <span class="string">'Google'</span>: <span class="number">2</span>&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>&#123;x: x**<span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> (<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>)&#125;</span><br><span class="line">&#123;<span class="number">2</span>: <span class="number">4</span>, <span class="number">4</span>: <span class="number">16</span>, <span class="number">6</span>: <span class="number">36</span>&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict(Runoob=<span class="number">1</span>, Google=<span class="number">2</span>, Taobao=<span class="number">3</span>)</span><br><span class="line">&#123;<span class="string">'Taobao'</span>: <span class="number">3</span>, <span class="string">'Runoob'</span>: <span class="number">1</span>, <span class="string">'Google'</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;另外，字典类型也有一些内置的函数，例如clear()、keys()、values()等。<br>&emsp;<strong>注意：</strong></p>
+<blockquote>
+<ol>
+<li>字典是一种映射类型，它的元素是键值对。</li>
+<li>字典的关键字必须为不可变类型，且不能重复。</li>
+<li>创建空字典使用 {}。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="Python数据类型转换"><a href="#Python数据类型转换" class="headerlink" title="Python数据类型转换"></a>Python数据类型转换</h2><p>&emsp;有时候，我们需要对数据内置的类型进行转换，数据类型的转换，你只需要将数据类型作为函数名即可。<br>&emsp;以下几个内置的函数可以执行数据类型之间的转换。这些函数返回一个新的对象，表示转换的值。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int[,base]</td>
+<td style="text-align:center">将X转换为一个整数</td>
+</tr>
+<tr>
+<td>float(x)</td>
+<td style="text-align:center">将x转换到一个浮点数</td>
+</tr>
+<tr>
+<td>complex(real[.imag])</td>
+<td style="text-align:center">创建一个复数</td>
+</tr>
+<tr>
+<td>str(x)</td>
+<td style="text-align:center">将对象x转换为字符串</td>
+</tr>
+<tr>
+<td>repr(x)</td>
+<td style="text-align:center">将对象x转换为表达式字符串</td>
+</tr>
+<tr>
+<td>eval(str)</td>
+<td style="text-align:center">用来计算在字符串中的有效Python表达式，并返回一个对象</td>
+</tr>
+<tr>
+<td>tuple(s)</td>
+<td style="text-align:center">将序列s转换为一个元组</td>
+</tr>
+<tr>
+<td>list(s)</td>
+<td style="text-align:center">将序列s转换为一个列表</td>
+</tr>
+<tr>
+<td>set(s)</td>
+<td style="text-align:center">转换为可变集合</td>
+</tr>
+<tr>
+<td>dict(d)</td>
+<td style="text-align:center">创建一个字典，d必须是一个序列（key,value）元组。</td>
+</tr>
+<tr>
+<td>frozenset(s)</td>
+<td style="text-align:center">转换为不可变的集合</td>
+</tr>
+<tr>
+<td>chr(x)</td>
+<td style="text-align:center">将一个整数转换为一个字符</td>
+</tr>
+<tr>
+<td>ord(x)</td>
+<td style="text-align:center">将一个字符转换为他的整数值</td>
+</tr>
+<tr>
+<td>hex(x)</td>
+<td style="text-align:center">将一个整数转换为一个十六进制字符串</td>
+</tr>
+<tr>
+<td>oct(x)</td>
+<td style="text-align:center">将一个整数转换为一个八进制字符串</td>
+</tr>
+</tbody>
+</table>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/08/17/Day-5-Python基础数据类型下部/">http://focusshell.github.io/2018/08/17/Day-5-Python基础数据类型下部/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2018/08/19/Day-6-Python解释器/" title="Day-6-Python解释器"><span>< PreviousPost</span><br><span class="prevTitle">Day-6-Python解释器</span></a><a class="nextSlogan" href="/2018/08/16/Day-4-Python基础数据类型/" title="Day-4-Python基础数据类型"><span>NextPost ></span><br><span class="nextTitle">Day-4-Python基础数据类型</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础数据类型下部"><span class="toc-number">1.</span> <span class="toc-text">Python基础数据类型下部</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#List-列表"><span class="toc-number">1.1.</span> <span class="toc-text">List (列表)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set（集合）"><span class="toc-number">1.2.</span> <span class="toc-text">Set（集合）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dictionary-字典"><span class="toc-number">1.3.</span> <span class="toc-text">Dictionary (字典)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python数据类型转换"><span class="toc-number">1.4.</span> <span class="toc-text">Python数据类型转换</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

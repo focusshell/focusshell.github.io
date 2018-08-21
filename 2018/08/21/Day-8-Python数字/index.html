@@ -1,0 +1,151 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-8-Python数字 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-8-Python数字</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/08/21</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Python"> Python</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="Python数字（Number）"><a href="#Python数字（Number）" class="headerlink" title="Python数字（Number）"></a>Python数字（Number）</h1><p>&emsp;Python数字数据类型用于存储数值；<br>&emsp;数据类型是不允许改变的，这就意味着如果改变数字数据类型的值，将重新分配内存空间。<br>&emsp;以下实例演示变量赋值时Number对象将被创建：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var1 = <span class="number">1</span></span><br><span class="line">var2 = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;您也可以使用del语句删除一些数字对象的引用；<br>&emsp;del语句的语法是：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> var1[,var2[,var3[....,varN]]]]</span><br></pre></td></tr></table></figure>
+<p>&emsp;Python支持三种不同类型的数值：</p>
+<blockquote>
+<ol>
+<li><strong>整型（int）</strong> -通常被称为是整型或整数，是正或负整数。不带小数点，Python3整型是没有限制大小的，可以当做Long类型使用，所以Python3没有Python2 的Long类型；</li>
+<li><strong>浮点型（float）</strong> -浮点型由整数部分与小数部分组成，浮点型也可以是使用科学计数法表示（2.5e2 = 2.5x10.e = 250）</li>
+<li><strong>复数（complex）</strong> -复数由实数部分和虚数部分构成，可以用a +bj或者complex（a,b）表示，复数的实部a和虚部b都是浮点型。</li>
+</ol>
+</blockquote>
+<p>&emsp;我们可以使用十六进制和八进制来代表整数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>number = <span class="number">0o33</span>     <span class="comment"># 八进制</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>number</span><br><span class="line"><span class="number">27</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>number = <span class="number">0xA9F</span>    <span class="comment"># 十六进制</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>number</span><br><span class="line"><span class="number">2719</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;以下是列表函数<br><img src="/img/python/2.jpg" alt="列表"><br>&emsp;Python支持复数，复数由实数部分和虚数部分构成，可以用a+bj.或者complex(a,b)表示，复数的实部a和虚部b都是浮点型</p>
+<hr>
+<h1 id="Python-数据类型转换"><a href="#Python-数据类型转换" class="headerlink" title="Python 数据类型转换"></a>Python 数据类型转换</h1><p>&emsp;有时候，我们需要对数据内置的类型进行转换，数据类型的转换，你只需要将数据类型作为函数名即可。</p>
+<blockquote>
+<ol>
+<li><strong>int(x)</strong> 将x转换为一个整数</li>
+<li><strong>float(x)</strong> 将x转换到一个浮点数</li>
+<li><strong>complex(x)</strong> 将x转换到一个复数，实数部分为x，虚数部分为0</li>
+<li><strong>complex(x,y)</strong> 将x和y转换到一个复数吗，实数部分为x，虚数部分为y。x和y都是数字表达式</li>
+</ol>
+</blockquote>
+<p>&emsp;以下实例将浮点数变量a转换为整数；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="number">1.0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>int(a)</span><br><span class="line"><span class="number">1</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Python数字运算"><a href="#Python数字运算" class="headerlink" title="Python数字运算"></a>Python数字运算</h1><p>&emsp;Python解释器可以作为一个简单的计算器，您可以在解释器输入一个表达式，他讲输出表达式的值。<br>&emsp;表达式的语法很直白：+、-、*、/和其他语言（如Pascal或c）里一样，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span> + <span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">50</span> - <span class="number">50</span>/<span class="number">6</span></span><br><span class="line"><span class="number">41.666666666666664</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>(<span class="number">50</span> * <span class="number">4</span> + <span class="number">8</span>) / <span class="number">5</span></span><br><span class="line"><span class="number">41.6</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">8</span> / <span class="number">5</span>        <span class="comment"># 总是返回一个浮点数</span></span><br><span class="line"><span class="number">1.6</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;<strong>注意：</strong> 在不同的机器上浮点运算的结果可能会不一样；<br>&emsp;在整数除法中，除法/总是返回一个浮点数，如果只想得到整数的结果，丢弃可能的分数部分，可以使用运算符 //：<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">17</span> / <span class="number">3</span>           <span class="comment">#  整数除法返回浮点型</span></span><br><span class="line"><span class="number">5.666666666666667</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">17</span> // <span class="number">3</span>          <span class="comment"># 整数除法返回向下取整后的结果</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">17</span> % <span class="number">3</span>           <span class="comment"># % 操作符返回除法的余数 </span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">5</span> * <span class="number">3</span> +<span class="number">2</span></span><br><span class="line"><span class="number">17</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;<strong>注意：</strong> //得到的并不一定是整数类型的数，它与分母子的数据类型有关系；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">7</span> // <span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">7.0</span> //<span class="number">2</span></span><br><span class="line"><span class="number">3.0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">7</span> // <span class="number">2.0</span></span><br><span class="line"><span class="number">3.0</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;等号 = 用于给变量赋值，赋值之后吗，除了下一个提示符，解释器不会显示任何结果；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>fenshu = <span class="number">80</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>huazai = <span class="number">5</span>*<span class="number">8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fenshu + huazai</span><br><span class="line"><span class="number">120</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;Python可以使用** 操作来进行幂运算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">2</span> ** <span class="number">7</span>    <span class="comment"># 2的7次方</span></span><br><span class="line"><span class="number">128</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">8</span> ** <span class="number">6</span>    <span class="comment"># 8的6次方</span></span><br><span class="line"><span class="number">262144</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;变量在使用前必须先“定义”（即赋予变量一个值），否则会出现错误：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>p     <span class="comment"># 尝试访问一个未定义的变量</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">NameError: name <span class="string">'p'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;不同类型的数混合运算时会将整数转换为浮点数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">3</span> * <span class="number">3.75</span> / <span class="number">1.5</span></span><br><span class="line"><span class="number">7.5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">7.0</span> / <span class="number">2</span></span><br><span class="line"><span class="number">3.5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="number">15</span> / <span class="number">7.5</span></span><br><span class="line"><span class="number">2.0</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;咋交互模式中，最后输出的表达式结果被赋值给变量_。如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>text = <span class="number">12.5</span> /<span class="number">10</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>net = <span class="number">152.2121</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>seic = <span class="number">54515</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>text * net</span><br><span class="line"><span class="number">190.26512499999998</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>seic + _</span><br><span class="line"><span class="number">54705.265125</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>round(_,<span class="number">2</span>)</span><br><span class="line"><span class="number">54705.27</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>&emsp;此处,_变量应被用户视为只读变量；</p>
+<hr>
+<h1 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h1><p>&emsp;函数列表<br><img src="/img/python/3.jpg" alt="函数"></p>
+<hr>
+<h1 id="随机数函数"><a href="#随机数函数" class="headerlink" title="随机数函数"></a>随机数函数</h1><p>&emsp;随机数可以用于数字、游戏、安全等领域中。还经常被嵌入到算法中，用以提高算法效率，并提高程序的安全性。<br>&emsp;Python包含以下常用随机数函数；<br><img src="/img/python/4.jpg" alt="随机函数"></p>
+<h1 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h1><p>&emsp;Python包含以下三角函数：<br><img src="/img/python/5.jpg" alt="三角"></p>
+<h1 id="数学常量"><a href="#数学常量" class="headerlink" title="数学常量"></a>数学常量</h1><p><img src="/img/python/6.jpg" alt="数学"></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/08/21/Day-8-Python数字/">http://focusshell.github.io/2018/08/21/Day-8-Python数字/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2018/08/21/Day-8-Python字符串-上部部/" title="Day-8-Python字符串(上部部)"><span>< PreviousPost</span><br><span class="prevTitle">Day-8-Python字符串(上部部)</span></a><a class="nextSlogan" href="/2018/08/20/Day-7-Python运算符/" title="Day-7-Python运算符"><span>NextPost ></span><br><span class="nextTitle">Day-7-Python运算符</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python数字（Number）"><span class="toc-number">1.</span> <span class="toc-text">Python数字（Number）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python-数据类型转换"><span class="toc-number">2.</span> <span class="toc-text">Python 数据类型转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python数字运算"><span class="toc-number">3.</span> <span class="toc-text">Python数字运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数学函数"><span class="toc-number">4.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#随机数函数"><span class="toc-number">5.</span> <span class="toc-text">随机数函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三角函数"><span class="toc-number">6.</span> <span class="toc-text">三角函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数学常量"><span class="toc-number">7.</span> <span class="toc-text">数学常量</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

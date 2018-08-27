@@ -1,0 +1,196 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-10-Python元组 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-10-Python元组</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/08/23</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Python"> Python</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="Python-元组"><a href="#Python-元组" class="headerlink" title="Python 元组"></a>Python 元组</h1><p>&emsp;Python的元组与列表类似，不同之处在于元组的元素不能修改。<br>&emsp;元组使用小括号，列表使用方括号。<br>&emsp;元组创建很简单，只需要在括号中添加元素用，并使用逗号隔开即可；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1 = (<span class="string">'Google'</span>,<span class="string">'Runoob'</span>,<span class="number">1997</span>,<span class="number">2000</span>);</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup3 = <span class="string">"a"</span>,<span class="string">"b"</span>,<span class="string">"c"</span>,<span class="string">"d"</span>;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(tup3)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;创建空元组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tup1 = ( );</span><br></pre></td></tr></table></figure>
+<p>&emsp;元组中只包含一个元素时，需要在元素后面添加逗号，否则括号会被当做运算符使用；</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 = (<span class="number">34</span>);            <span class="comment"># 不加逗号，类型为整型</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(tup2)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">int</span>'&gt;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"></span></span><br><span class="line">&gt;&gt;&gt; tup4 = (199,);          # 加上逗号，类型为元组</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>type(tup4)</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">tuple</span>'&gt;</span></span><br><span class="line"><span class="class">&gt;&gt;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>&emsp;元组与支付穿类似，下标索引从0开始，可以进行截取，组合等；</p>
+<h1 id="访问元组"><a href="#访问元组" class="headerlink" title="访问元组"></a>访问元组</h1><p>&emsp;元组可以使用下标索引来访问元祖中的值，如下示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">tup1 = (<span class="string">'Baduy'</span>,<span class="string">'Rybiiv'</span>,<span class="number">1997.2018</span>)</span><br><span class="line">tup2 = (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"tup1[0]:"</span>,tup1[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">"tup2[1:5]:"</span>,tup2[<span class="number">1</span>:<span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<p>&emsp;以上代码执行结果为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User\Anaconda3\python.exe <span class="string">"D:/Pycharm job/元组.py"</span></span><br><span class="line">tup1[<span class="number">0</span>]: Baduy</span><br><span class="line">tup2[<span class="number">1</span>:<span class="number">5</span>]: (<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="修改元组"><a href="#修改元组" class="headerlink" title="修改元组"></a>修改元组</h1><p>&emsp;元祖中的元素值是不允许修改的，但我们可以对元组进行连接组合，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">tup1 = (<span class="number">12</span>,<span class="number">32.45</span>);</span><br><span class="line">tup2 = (<span class="string">'abc'</span>,<span class="string">'xyz'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以下修改元组元素操作是非法的。</span></span><br><span class="line"><span class="comment"># tup1[0] = 100</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个新的元组</span></span><br><span class="line"></span><br><span class="line">tup3 = tup1 + tup2</span><br><span class="line">print(tup3)</span><br></pre></td></tr></table></figure>
+<p>&emsp;以上代码执行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\User\Anaconda3\python.exe <span class="string">"D:/Pycharm job/修改元组.py"</span></span><br><span class="line">(<span class="number">12</span>, <span class="number">32.45</span>, <span class="string">'abc'</span>, <span class="string">'xyz'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="删除元组"><a href="#删除元组" class="headerlink" title="删除元组"></a>删除元组</h1><p>&emsp;元组中的元素值是不允许删除的，但我们可以使用del语句来删除整个元组，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">tup = (<span class="string">'Baudy'</span>,<span class="string">'Runoob'</span>,<span class="number">1997</span>,<span class="number">2018</span>);</span><br><span class="line"></span><br><span class="line">print(tup)</span><br><span class="line"><span class="keyword">del</span> tup;</span><br><span class="line">print(<span class="string">"删除后的元组 tup ："</span>)</span><br><span class="line">print(tup)</span><br></pre></td></tr></table></figure>
+<p>&emsp;以上实例元组被删除后，输出变量会有异常信息，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">删除后的元组 tup ：</span><br><span class="line">  File <span class="string">"D:/Pycharm job/删除元组.py"</span>, line <span class="number">8</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    print(tup)</span><br><span class="line">NameError: name <span class="string">'tup'</span> <span class="keyword">is</span> <span class="keyword">not</span> defined</span><br></pre></td></tr></table></figure>
+<h1 id="元组运算符"><a href="#元组运算符" class="headerlink" title="元组运算符"></a>元组运算符</h1><p>&emsp;与字符串一样，元组之间可以使用+号和*号进行运算，这就意味着他们可以组合和复制，运算后会生成一个新的元组：</p>
+<table>
+<thead>
+<tr>
+<th>Python表达式</th>
+<th style="text-align:center">结果</th>
+<th style="text-align:right">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>len(1.2.3)</td>
+<td style="text-align:center">3</td>
+<td style="text-align:right">计算元素个数</td>
+</tr>
+<tr>
+<td>(1.2.3)+(4.5.6)</td>
+<td style="text-align:center">(1.2.3.4.5.6)</td>
+<td style="text-align:right">连接</td>
+</tr>
+<tr>
+<td>(‘Hil’.)*4</td>
+<td style="text-align:center">(‘Hil’,’Hil’,’Hil’.’Hil’)</td>
+<td style="text-align:right">复制</td>
+</tr>
+<tr>
+<td>3 in (1.2.3)</td>
+<td style="text-align:center">True</td>
+<td style="text-align:right">元素是否存在</td>
+</tr>
+<tr>
+<td>for x in (1.2.3) print(x.)</td>
+<td style="text-align:center">1 2 3</td>
+<td style="text-align:right">迭代</td>
+</tr>
+</tbody>
+</table>
+<h1 id="元组索引，截取"><a href="#元组索引，截取" class="headerlink" title="元组索引，截取"></a>元组索引，截取</h1><p>&emsp;因为元组也是一个序列，所以我们可以访问元组中的指定为位置的元素，也可以截取索引中的一段元素，如下：</p>
+<p>&emsp;元组：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L = (<span class="string">'Baidu'</span>,<span class="string">'Runoob'</span>,<span class="number">1997</span>,<span class="number">2018</span>);</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>Python表达式</th>
+<th style="text-align:center">结果</th>
+<th style="text-align:right">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L[2]</td>
+<td style="text-align:center">‘1997’</td>
+<td style="text-align:right">读取第三个元素</td>
+</tr>
+<tr>
+<td>L[-2]</td>
+<td style="text-align:center">‘1997’</td>
+<td style="text-align:right">反向读取；读取倒数第二个元素</td>
+</tr>
+<tr>
+<td>L[1:]</td>
+<td style="text-align:center">(‘Runoob’, 1997, 2018)</td>
+<td style="text-align:right">截取元素，从第二个开始后的所有元素</td>
+</tr>
+</tbody>
+</table>
+<p>&emsp;实例运行如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>L = (<span class="string">'Baidu'</span>,<span class="string">'Runoob'</span>,<span class="number">1997</span>,<span class="number">2018</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (L[<span class="number">2</span>])</span><br><span class="line"><span class="number">1997</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (L[<span class="number">-2</span>])</span><br><span class="line"><span class="number">1997</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">print</span> (L[<span class="number">1</span>:])</span><br><span class="line">(<span class="string">'Runoob'</span>, <span class="number">1997</span>, <span class="number">2018</span>)</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="元组内置函数"><a href="#元组内置函数" class="headerlink" title="元组内置函数"></a>元组内置函数</h1><p>&emsp;Python元组包含了以下内置函数</p>
+<h2 id="len-tuple"><a href="#len-tuple" class="headerlink" title="len(tuple)"></a>len(tuple)</h2><p>&emsp;计算元组元素个数：<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup1 = (<span class="string">'Baidu'</span>,<span class="string">'Runoob'</span>,<span class="number">1997</span>,<span class="number">2018</span>);</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>len(tup1)</span><br><span class="line"><span class="number">4</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="max-tuple"><a href="#max-tuple" class="headerlink" title="max(tuple)"></a>max(tuple)</h2><p>&emsp;返回元组中元素的最大值：<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 = (<span class="string">'19'</span>,<span class="string">'222'</span>,<span class="string">'3333'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>max(tup2)</span><br><span class="line"><span class="string">'3333'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="min-tuple"><a href="#min-tuple" class="headerlink" title="min(tuple)"></a>min(tuple)</h2><p>&emsp;返回元组中元素最小值<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>tup2 = (<span class="string">'19'</span>,<span class="string">'222'</span>,<span class="string">'3333'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>min(tup2)</span><br><span class="line"><span class="string">'19'</span></span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="tuple-seq"><a href="#tuple-seq" class="headerlink" title="tuple(seq)"></a>tuple(seq)</h2><p>&emsp;将列表转换为元组<br>&emsp;<strong>实例：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list1 = (<span class="string">'Baidu'</span>,<span class="string">'Tudou'</span>,<span class="string">'Runoob'</span>,<span class="string">'souhu'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tuple1=tuple(list1)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>tuple1</span><br><span class="line">(<span class="string">'Baidu'</span>, <span class="string">'Tudou'</span>, <span class="string">'Runoob'</span>, <span class="string">'souhu'</span>)</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/08/23/Day-10-Python元组/">http://focusshell.github.io/2018/08/23/Day-10-Python元组/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2018/08/24/Day-10-Python字典/" title="Day-10-Python字典"><span>< PreviousPost</span><br><span class="prevTitle">Day-10-Python字典</span></a><a class="nextSlogan" href="/2018/08/22/Day-9-Python列表/" title="Day-9-Python列表"><span>NextPost ></span><br><span class="nextTitle">Day-9-Python列表</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python-元组"><span class="toc-number">1.</span> <span class="toc-text">Python 元组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#访问元组"><span class="toc-number">2.</span> <span class="toc-text">访问元组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改元组"><span class="toc-number">3.</span> <span class="toc-text">修改元组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#删除元组"><span class="toc-number">4.</span> <span class="toc-text">删除元组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#元组运算符"><span class="toc-number">5.</span> <span class="toc-text">元组运算符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#元组索引，截取"><span class="toc-number">6.</span> <span class="toc-text">元组索引，截取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#元组内置函数"><span class="toc-number">7.</span> <span class="toc-text">元组内置函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#len-tuple"><span class="toc-number">7.1.</span> <span class="toc-text">len(tuple)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#max-tuple"><span class="toc-number">7.2.</span> <span class="toc-text">max(tuple)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#min-tuple"><span class="toc-number">7.3.</span> <span class="toc-text">min(tuple)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tuple-seq"><span class="toc-number">7.4.</span> <span class="toc-text">tuple(seq)</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

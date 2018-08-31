@@ -1,0 +1,116 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="focusshell"><meta name="renderer" content="webkit"><meta name="copyright" content="focusshell"><meta name="keywords" content="Hexo"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Day-3-AWk应用 · Focusshell's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/head2.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/avatar/touxiang2.jpg"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">Focusshell</div><div class="profile-signature">他日若遂凌云志，敢笑黄巢不丈夫；</div><div class="friends"><div>FRIENDS</div><span><a href="//blog.51cto.com/babyshen" target="_black">Baby</a></span><span><a href="//legoc.github.io" target="_black">Lego</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 55vh;background-image: url(/img/intro/banner.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Focusshell's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about">About</a><a href="/archives">Archives</a><a href="/tags">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Day-3-AWk应用</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2018/08/29</span></span><span class="busuanzi-pv" id="busuanzi_container_page_pv"><i class="post-intro-calendar fa fa-user-o"></i><span id="busuanzi_value_page_pv"></span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Linux三剑客命令"> Linux三剑客命令</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="AWK应用实例"><a href="#AWK应用实例" class="headerlink" title="AWK应用实例"></a>AWK应用实例</h1><p>&emsp;这几天有点事比较忙，更新较慢；<br>&emsp;awk的数组，以及正则表达式的引用，相对来讲只能多练；练的多了慢慢就理解了，今天打算磨合awk的应用，以便让自己迅速的理解awk各类语法的应用，能熟练套用、应用语法；</p>
+<h2 id="应用①"><a href="#应用①" class="headerlink" title="应用①"></a>应用①</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">awk -F" " '&#123;print NF&#125;' hei.sh   # 输出文件每行有多少个字段</span><br><span class="line">awk -F" " '&#123;print $1,$2,$3,$4,$5&#125;' hei.sh   # 以空格为分隔符输出前五个字段</span><br><span class="line">awk -F" " '&#123;print $1,$2,$3,$4,$5&#125;' OFS='\t' hei.sh  # 输出前五个字段并使用制表符分隔输出</span><br><span class="line">awk -F" " '&#123;print NR,$1,$2,$3,$4,$5&#125;' OFS='\t' hei.sh  # 制表符分隔输出前五个字段，并打印行号</span><br></pre></td></tr></table></figure>
+<h2 id="应用②"><a href="#应用②" class="headerlink" title="应用②"></a>应用②</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -F'[:#]' '&#123;print NF&#125;' hei.sh  #  指定多个分隔符"[:#]" 输出每行多少字段</span><br><span class="line">awk -F'[:#]' '&#123;print NR,$1,$2,$3&#125;' OFS='\t' hei.sh  # 制表符分隔输出前三个字段，并打印行号</span><br></pre></td></tr></table></figure>
+<h2 id="应用③"><a href="#应用③" class="headerlink" title="应用③"></a>应用③</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awk -F'[:#/]' '&#123;print NF&#125;' /etc/passwd  # 指定三个分隔符，并输出每行字段数</span><br><span class="line">awk -F'[:#/]' '&#123;print NR,$1,$2,$3,$4&#125;' OFS='\t' /etc/passwd # 制表符分隔 并输出多个字段</span><br></pre></td></tr></table></figure>
+<h2 id="应用④"><a href="#应用④" class="headerlink" title="应用④"></a>应用④</h2><p>&emsp;<strong>计算/home目录下，普通文件的大小，使用KB作为单位</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ls -l|awk 'BEGIN&#123;sum=0&#125; !/^d/&#123;sum +=$5&#125;END&#123;print "total size is:",sum/1024,"KB"&#125;' </span><br><span class="line">ls -l|awk 'BEGIN&#123;sum=0&#125; !/^d/&#123;sum+=$5&#125; END&#123;print "total size is:",int(sum/1024),"KB"&#125;' # int的意思是取整的意思</span><br></pre></td></tr></table></figure>
+<p>&emsp;通常，对于每个输入行， awk 都会执行每个脚本代码块一次。然而，在许多编程情况中，可能需要在 awk 开始处理输入文件中的文本之前执行初始化代码。对于这种情况， awk 允许您定义一个 BEGIN 块。<br>&emsp;因为 awk 在开始处理输入文件之前会执行 BEGIN 块，因此它是初始化 FS（字段分隔符）变量、打印页眉或初始化其它在程序中以后会引用的全局变量的极佳位置。<br>awk 还提供了另一个特殊块，叫作 END 块。 awk 在处理了输入文件中的所有行之后执行这个块。通常， END 块用于执行最终计算或打印应该出现在输出流结尾的摘要信息。</p>
+<h2 id="应用⑤"><a href="#应用⑤" class="headerlink" title="应用⑤"></a>应用⑤</h2><p>&emsp;<strong>统计netstat -anp状态为LISTEN和CONNECT的连接数量分别是多少</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -anp|awk '$6~/LISTEN|CONNECTED/&#123;sum[$6]++&#125; END&#123;for (i in sum) printf "%-10s %-6s %-3s \n",i,"",sum[i]&#125;'</span><br></pre></td></tr></table></figure>
+<h2 id="应用⑥"><a href="#应用⑥" class="headerlink" title="应用⑥"></a>应用⑥</h2><p>&emsp;统计/home目录下不同用户的普通文件的总数是多少？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@docker-Reg ~]# ls -l|awk 'NR!=1 &amp;&amp; !/^d/&#123;sum[$3]++&#125; END&#123;for (i in sum)printf "%-6s %-5s %-3s \n",i,"",sum[i]&#125;'</span><br><span class="line">root         2</span><br></pre></td></tr></table></figure>
+<p>&emsp;统计/home目录下不同用户的普通文件的大小的总size是多少？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@docker-Reg ~]# ls -l|awk 'NR!=1 &amp;&amp; !/^d/&#123;sum[$3]++&#125; END&#123;for (i in sum)printf "%-6s %-5s %-3s %-2s \n",i," ",sum[i]/1024/1024,"MB"&#125;'</span><br><span class="line">root         1.90735e-06 MB</span><br></pre></td></tr></table></figure>
+<h2 id="应用⑦"><a href="#应用⑦" class="headerlink" title="应用⑦"></a>应用⑦</h2><p>&emsp;输出成绩表</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@docker-Reg ~]# cat &gt;test0 &lt;&lt;EOF</span><br><span class="line"><span class="meta">&gt;</span> Marry   2143 78 84 77</span><br><span class="line"><span class="meta">&gt;</span> Jack    2321 66 78 45</span><br><span class="line"><span class="meta">&gt;</span> Tom     2122 48 77 71</span><br><span class="line"><span class="meta">&gt;</span> Mike    2537 87 97 95</span><br><span class="line"><span class="meta">&gt;</span> Bob     2415 40 57 62</span><br><span class="line"><span class="meta">&gt;</span> EOF</span><br><span class="line">[root@docker-Reg ~]# awk 'BEGIN&#123;math=0;eng=0;com=0;printf "Lineno.   Name    No.    Math   English   Computer    Total\n";printf "------------------------------------------------------------\n"&#125;&#123;math+=$3; eng+=$4; com+=$5;printf "%-8s %-7s %-7s %-7s %-9s %-10s %-7s \n",NR,$1,$2,$3,$4,$5,$3+$4+$5&#125; END&#123;printf "------------------------------------------------------------\n";printf "%-24s %-7s %-9s %-20s \n","Total:",math,eng,com;printf "%-24s %-7s %-9s %-20s \n","Avg:",math/NR,eng/NR,com/NR&#125;' test0</span><br><span class="line">Lineno.   Name    No.    Math   English   Computer    Total</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">1        Marry   2143    78      84        77         239     </span><br><span class="line">2        Jack    2321    66      78        45         189     </span><br><span class="line">3        Tom     2122    48      77        71         196     </span><br><span class="line">4        Mike    2537    87      97        95         279     </span><br><span class="line">5        Bob     2415    40      57        62         159     </span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Total:                   319     393       350                  </span><br><span class="line">Avg:                     63.8    78.6      70                   </span><br><span class="line">[root@docker-Reg ~]#</span><br></pre></td></tr></table></figure>
+<h2 id="应用⑧"><a href="#应用⑧" class="headerlink" title="应用⑧"></a>应用⑧</h2><p>&emsp;利用awk取IP及子网掩码；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@docker-Reg ~]# ip addr show eth0|awk -F'[: ]+' 'NR==3 &#123;print $3,$5&#125;'</span><br><span class="line">192.168.56.18/24 192.168.56.255</span><br><span class="line"></span><br><span class="line">[root@docker-Reg ~]# ip addr show eth0|awk -F'[: ]+' 'NR==3 &#123;print&#125;'</span><br><span class="line">    inet 192.168.56.18/24 brd 192.168.56.255 scope global eth0 </span><br><span class="line"><span class="meta">#</span> 整行打印</span><br></pre></td></tr></table></figure></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://focusshell.github.io">focusshell</a></p><p> <span>Link:  </span><a href="http://focusshell.github.io/2018/08/29/Day-3-AWk应用/">http://focusshell.github.io/2018/08/29/Day-3-AWk应用/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2018/08/28/Day-2-Awk命令下部/" title="Day-2-Awk命令下部"><span>NextPost ></span><br><span class="nextTitle">Day-2-Awk命令下部</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 55vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#AWK应用实例"><span class="toc-number">1.</span> <span class="toc-text">AWK应用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用①"><span class="toc-number">1.1.</span> <span class="toc-text">应用①</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用②"><span class="toc-number">1.2.</span> <span class="toc-text">应用②</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用③"><span class="toc-number">1.3.</span> <span class="toc-text">应用③</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用④"><span class="toc-number">1.4.</span> <span class="toc-text">应用④</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用⑤"><span class="toc-number">1.5.</span> <span class="toc-text">应用⑤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用⑥"><span class="toc-number">1.6.</span> <span class="toc-text">应用⑥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用⑦"><span class="toc-number">1.7.</span> <span class="toc-text">应用⑦</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#应用⑧"><span class="toc-number">1.8.</span> <span class="toc-text">应用⑧</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
